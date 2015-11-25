@@ -1,0 +1,17 @@
+{
+    "name": "ramonchristophermorales/string-token-fomatter",
+    "description": "A simple formatter for tokens inside a string",
+    "keywords": ["string", "token", "formatter"],
+    "homepage": "https://github.com/ramonchristophermorales",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ramonchristophermorales",
+            "email": "ramonchristophermorales@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0"
+    }
+}
