@@ -1,8 +1,8 @@
-<?php namespace RamonChristopherMorales\StringTokenFormatter;
+<?php namespace RamonChristopherMorales\StringTokenFormatter\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class StringTokenFormatterServiceProvider extends ServiceProvider {
+class STFServiceProvider extends ServiceProvider {
 
 	/**
 	 * Bootstrap the application services.
@@ -12,7 +12,7 @@ class StringTokenFormatterServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->publishes([
-			__DIR__.'/config.php' => config_path('stringTokenFormatter.php'),
+			__DIR__.'/config.php' => config_path('STF.php'),
 		], 'config');
 
 	}
@@ -24,9 +24,9 @@ class StringTokenFormatterServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->bind('stringTokenFormatter', function()
+		$this->app->bind('STF', function()
 		{
-//			return new Ramon;
+			return new \RamonChristopherMorales\StringTokenFormatter\STF();
 		});
 	}
 
