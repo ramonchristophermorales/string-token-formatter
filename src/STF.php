@@ -57,7 +57,11 @@ class STF {
      */
     public function format($formatIn, $formatOut=null) {
 
-        if (!$formatIn) {
+        if (!$formatIn || !$formatOut) {
+            return false;
+        }
+
+        if ($formatIn != $formatOut || count($formatIn) != count($formatOut)) {
             return false;
         }
 
@@ -65,12 +69,12 @@ class STF {
 
             $preg_match = "/[";
 
-            $eFormat = explode('[s]', $formatIn);
+            $eFormatIn = explode('[s]', $formatIn);
 
-            unset($eFormat[end($eFormat)]);
+            unset($eFormatIn[end($eFormat)]);
 
-            foreach ($eFormat as $e) {
-                if ($e != end($eFormat)) {
+            foreach ($eFormatIn as $e) {
+                if ($e != end($eFormatIn)) {
                     $preg_match .= "$e\s";
                 }
             }
