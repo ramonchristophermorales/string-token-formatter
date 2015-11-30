@@ -18,7 +18,7 @@ class STF {
     }
 
     /**
-     *
+     * @todo: test the token or list of token if the format is working
      * @param $tokens
      * @return array|bool
      */
@@ -46,45 +46,47 @@ class STF {
     }
 
     /**
-     * @todo: compare the formatIn if it matches both strings, input identifier and input separator in formatOut output identifier and output separator
-     */
-    /**
      * tells the STF what format should the formatter follow and its format output
      * @format [identifier][string][separator][string]
      * @param $formatIn
      * @param null $formatOut
      * @return array|bool
      */
-    public function format($formatIn, $formatOut=null) {
+    public function format($formatIn, $formatOut) {
 
         if (!$formatIn || !$formatOut) {
             return false;
         }
 
-        if ($formatIn != $formatOut || count($formatIn) != count($formatOut)) {
-            return false;
-        }
-
         if (preg_match("/[s]*/", $formatIn)) {
 
-            $preg_match = "/[";
-
             $eFormatIn = explode('[s]', $formatIn);
+            $eFormatOut = explode('[s]', $formatOut);
 
-            unset($eFormatIn[end($eFormat)]);
+            unset($eFormatIn[end($eFormatIn)]);
+            unset($eFormatOut[end($eFormatOut)]);
 
-            foreach ($eFormatIn as $e) {
+            if (count($eFormatIn) != count($eFormatOut)) {
+                return false;
+            }
+
+            $preg_match_in = "/[";
+            $preg_match_out = "";
+
+            foreach ($eFormatIn as $key => $e) {
                 if ($e != end($eFormatIn)) {
-                    $preg_match .= "$e\s";
+                    $preg_match_in .= "$e\s";
+                    $preg_match_out .= $eFormatOut[$key]."\s";
                 }
             }
 
-            $preg_match .= "]*/";
+            $preg_match_in .= "]*/";
+            $preg_match_out .= "";
 
-            $this->formatIn = $preg_match;
-            $this->formatOut = $formatOut?$formatOut:$this->formatOut;
+            $this->formatIn = $preg_match_in;
+            $this->formatOut = $preg_match_out;
 
-            return [$preg_match, $formatOut];
+            return [$preg_match_in, $preg_match_out];
         }
 
         return false;
