@@ -12,8 +12,12 @@ class STFServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->publishes([
-			__DIR__.'/config.php' => config_path('STF.php'),
+			__DIR__.'/../config.php' => config_path('STF.php'),
 		], 'config');
+
+		$this->publishes([
+			__DIR__.'/../../tests/STFTest.php' => base_path('tests/STFTest.php'),
+		], 'tests');
 
 	}
 

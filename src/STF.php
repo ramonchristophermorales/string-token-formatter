@@ -106,7 +106,7 @@ class STF {
      * get the config
      * @return bool|mixed
      */
-    private function config() {
+    public function config() {
 
         $config = false;
 
