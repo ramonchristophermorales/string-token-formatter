@@ -70,17 +70,17 @@ class STF {
                 return false;
             }
 
-            $preg_match_in = "/[";
+            $preg_match_in = "/^";
             $preg_match_out = "";
 
             foreach ($eFormatIn as $key => $e) {
                 if ($e != end($eFormatIn)) {
-                    $preg_match_in .= "$e\s";
-                    $preg_match_out .= $eFormatOut[$key]."\s";
+                    $preg_match_in .= "[$e"."a-z]";
+                    $preg_match_out .= "".$eFormatOut[$key]."[a-z]";
                 }
             }
 
-            $preg_match_in .= "]*/";
+            $preg_match_in .= "*$/i";
             $preg_match_out .= "";
 
             $this->formatIn = $preg_match_in;
