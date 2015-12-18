@@ -1,16 +1,51 @@
 <?php namespace RamonChristopherMorales\StringTokenFormatter;
 
+/**
+ * converts tokens inside a string into displayable php variable
+ * working on php objects
+ *
+ * Class STF
+ * @package RamonChristopherMorales\StringTokenFormatter
+ */
 class STF {
 
+    /**
+     * regex coming in holder
+     *
+     * @var
+     */
     protected $formatIn;
+    /**
+     * regex coming out holder
+     *
+     * @var
+     */
     protected $formatOut;
+
+    /**
+     * replaced string/php modifiers going in holder
+     *
+     * @var
+     */
+    protected $strReplaceIn;
+
+    /**
+     * replaced string/php modifiers going out holder
+     *
+     * @var
+     */
+    protected $strReplaceOut;
+
+    /**
+     * token list holder
+     *
+     * @var
+     */
     protected $tokenList;
-    protected $input;
-    protected $output;
 
     public function __construct() {
 
-        $config = $this->config();
+        $config = $this->getConfig();
 
         if ($config) {
             list($this->formatIn, $this->formatOut) = $this->format($config['formatIn'], $config['formatOut']);
@@ -18,35 +53,37 @@ class STF {
     }
 
     /**
-     * @todo: test the token or list of token if the format is working
+     * set the list of token
+     *
      * @param $tokens
      * @return array|bool
      */
-    public function tokens($tokens) {
+    public function tokensList($tokens) {
 
-        if  (is_string($tokens)) {
+        if(!$tokens) {
+            return null;
+        }
+
+        if (is_string($tokens)) {
             $tokens = [$tokens];
         }
 
-        $filteredTokenList = false;
+        $filteredTokenList = null;
 
         if (is_array($tokens) && count($tokens) > 0) {
-
             foreach ($tokens as $token) {
-                var_dump($this->formatIn);
-                var_dump($token);
-                dd(preg_match($this->formatIn, $token));
                 if (preg_match($this->formatIn, $token)) {
-                    $filteredTokenList[] = $token;
+                    $this->tokenList[] = $token;
                 }
             }
         }
 
-        return $filteredTokenList;
+        return true;
     }
 
     /**
      * tells the STF what format should the formatter follow and its format output
+     *
      * @format [identifier][string][separator][string]
      * @param $formatIn
      * @param null $formatOut
@@ -70,17 +107,20 @@ class STF {
                 return false;
             }
 
-            $preg_match_in = "/^";
+            $preg_match_in = "/^[";
             $preg_match_out = "";
 
             foreach ($eFormatIn as $key => $e) {
                 if ($e != end($eFormatIn)) {
-                    $preg_match_in .= "[$e"."a-z]";
-                    $preg_match_out .= "".$eFormatOut[$key]."[a-z]";
+                    $preg_match_in .= "$e"."A-z";
+                    $this->strReplaceIn[] = $e;
+
+                    $preg_match_out .= "".$eFormatOut[$key]."[A-z]";
+                    $this->strReplaceOut[] = $eFormatOut[$key];
                 }
             }
 
-            $preg_match_in .= "*$/i";
+            $preg_match_in .= "]+$/i";
             $preg_match_out .= "";
 
             $this->formatIn = $preg_match_in;
@@ -92,23 +132,108 @@ class STF {
         return false;
     }
 
-    public function output() {
+    /**
+     * process the string and converts any tokens that matches into php variable output
+     *
+     * @param null $string
+     * @return mixed|null
+     */
+    public function STF($string=null) {
 
-        ob_start();
-        eval("?>".$this->output);
-        return  ob_get_clean();
+        if (!$this->formatIn || !$this->formatOut) {
+            return $string;
+        }
+
+        if (count($this->tokenList) < 1) {
+            return $string;
+        }
+
+        preg_match_all("/[@][A-Za-z-_]*/", $string, $tokens);
+        preg_match_all("/[@][A-Za-z-_]*/", $string, $tokens);
+
+        if (count($tokens[0]) < 1) {
+            return $string;
+        }
+
+        $formattedTokenList = [];
+        $convertedTokenList = [];
+        $newTokenList = [];
+
+        foreach ($tokens[0] as $token) {
+
+            if (!in_array($token, $this->tokenList)) {
+                continue;
+            }
+
+            $newTokenList[] = $token;
+
+            $convertedTokenList[] = str_replace($this->strReplaceIn, $this->strReplaceOut, $token);
+        }
+
+        foreach ($convertedTokenList as $token) {
+            $formattedTokenList[] = "<?php echo $token; ?>";
+        }
+
+        $return = str_replace($newTokenList, $formattedTokenList, $string);
+
+        return $return;
     }
 
-    ################################################################################
-    # private functions
+    /**
+     * returns all the valid tokens
+     *
+     * @return mixed
+     */
+    public function getTokens() {
+        return $this->tokenList;
+    }
 
     /**
-     * get the config
-     * @return bool|mixed
+     * return the regex used against tokens coming in
+     *
+     * @return string
      */
-    public function config() {
+    public function getFormatIn() {
+        return $this->formatIn;
+    }
 
-        $config = false;
+    /**
+     * return the regex used against tokens coming in
+     *
+     * @return string
+     */
+    public function getFormatOut() {
+        return $this->formatOut;
+    }
+
+    /**
+     * returns the replaced string/php modifiers before the string
+     * from tokens coming in
+     *
+     * @return array
+     */
+    public function getStrReplaceIn() {
+        return $this->strReplaceIn;
+    }
+
+    /**
+     * returns the replaced string/php modifiers before the string
+     * from tokens coming in
+     *
+     * @return array
+     */
+    public function getStrReplaceOut() {
+        return $this->strReplaceOut;
+    }
+
+    /**
+     * returns the config array
+     *
+     * @return array|null
+     */
+    public function getConfig() {
+
+        $config = null;
 
         if (function_exists('config')) {
             $config =  config('STF');
