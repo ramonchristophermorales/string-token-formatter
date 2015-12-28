@@ -15,6 +15,5 @@ class STFTest extends PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->stf->getConfig()?true:false);
     }
-
-    public function test
+    
 }
