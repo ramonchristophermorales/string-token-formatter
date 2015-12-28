@@ -1,19 +1,20 @@
-<?php
+<?php use RamonChristopherMorales\StringTokenFormatter\STF;
 
-use Monolog\TestCase;
-use RamonChristopherMorales\StringTokenFormatter\Facades\STF;
-
-class STFTest extends TestCase
+class STFTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * A basic functional test example.
-     *
-     * @return void
-     */
+
+    protected $stf;
+
+    public function __construct() {
+        parent::__construct();
+
+        $this->stf = new STF();
+    }
+
     public function testConfig()
     {
-        STF::shouldReceive('config')->once()->with('safsdfaf', 'sdafsdfs');
-
-        $this->call('GET', '/');
+        $this->assertTrue($this->stf->getConfig()?true:false);
     }
+
+    public function test
 }
