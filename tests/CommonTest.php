@@ -6,11 +6,14 @@ class CommonTest extends PHPUnit_Framework_TestCase {
 
     public $stf;
 
-    public function __construct() {
-        parent::__construct();
+    public function __construct($name = NULL, array $data = array(), $dataName = '') {
+        parent::__construct($name, $data, $dataName);
 
+        $this->setUpBeforeClass();
         $this->stf = new STF();
     }
+
+
 
     public function assertSTF($actual)
     {
@@ -39,6 +42,21 @@ class CommonTest extends PHPUnit_Framework_TestCase {
 
     public function testAttributeTokenList() {
         $this->assertClassHasAttribute('tokenList', 'RamonChristopherMorales\StringTokenFormatter\STF');
+    }
+
+
+    /************************************************************************************
+     *
+     * DATA PROVIDERS
+     *
+     */
+
+    public function setConfigProvider() {
+
+        return [
+            'any random string' => ['any', 'any'],
+            'null' => ['','']
+        ];
     }
 
 }

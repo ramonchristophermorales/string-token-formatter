@@ -2,7 +2,7 @@
 
 class Config extends CommonTest {
 
-
+    
     /**
      * test the config file if exists
      *
@@ -55,5 +55,14 @@ class Config extends CommonTest {
             $this->assertNotEmpty($config['formatOut']);
         }
     }
+
+
+    /**
+     * @dataProvider setConfigProvider
+     */
+    public function testSetConfig($a, $expected) {
+        $this->assertEquals($expected, $this->stf->setConfig($a));
+    }
+
 
 }

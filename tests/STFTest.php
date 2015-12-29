@@ -1,7 +1,11 @@
 <?php
 
-class STFTest extends CommonTest
-{
+class STFTest extends PHPUnit_Framework_TestCase {
+
+    public function __construct() {
+        parent::__construct();
+        $this->stf = new \RamonChristopherMorales\StringTokenFormatter\STF();
+    }
 
 
     public function testGetStrReplaceOut() {

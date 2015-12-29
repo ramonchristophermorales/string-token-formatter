@@ -244,13 +244,13 @@ class STF {
     public function getConfig() {
 
         $config = null;
-        $exceptionMessage = "Missing STF configuration file";
 
         if ($this->configPath) {
-            if (file_exists(__DIR__.'/config.php')) {
-                $config = require __DIR__.'/config.php';
+
+            if (file_exists($this->configPath)) {
+                $config = require $this->configPath;
             } else {
-                throw new \Exception($exceptionMessage);
+                throw new \Exception("Failed to find STF configuration file with config path: " . $this->configPath);
             }
 
             return $config;
@@ -270,7 +270,7 @@ class STF {
         }
 
         if (!$config) {
-            throw new \Exception($exceptionMessage);
+            throw new \Exception("Missing STF configuration file");
         }
 
         return $config;
@@ -289,7 +289,7 @@ class STF {
      * @param $configPath
      * @return mixed
      */
-    public function setConfigPath($configPath) {
+    public function setConfig($configPath) {
         return $this->configPath = $configPath;
     }
 }
