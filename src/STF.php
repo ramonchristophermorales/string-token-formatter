@@ -11,37 +11,38 @@ class STF {
 
     /**
      * regex coming in holder
-     *
      * @var
      */
     protected $formatIn;
     /**
      * regex coming out holder
-     *
      * @var
      */
     protected $formatOut;
 
     /**
      * replaced string/php modifiers going in holder
-     *
      * @var
      */
     protected $strReplaceIn;
 
     /**
      * replaced string/php modifiers going out holder
-     *
      * @var
      */
     protected $strReplaceOut;
 
     /**
      * token list holder
-     *
      * @var
      */
     protected $tokenList;
+
+    /**
+     * config path holder
+     * @var
+     */
+    protected $configPath;
 
     public function __construct() {
 
@@ -179,6 +180,13 @@ class STF {
         return $return;
     }
 
+
+    /************************************************************************************
+     *
+     * GETTERS
+     *
+     */
+
     /**
      * returns all the valid tokens
      *
@@ -227,26 +235,61 @@ class STF {
     }
 
     /**
-     * returns the config array
+     * returns configuration array from the config file
      *
-     * @return array|null
+     * @param null $configPath
+     * @return mixed|null
+     * @throws \Exception
      */
     public function getConfig() {
 
         $config = null;
+        $exceptionMessage = "Missing STF configuration file";
 
+        if ($this->configPath) {
+            if (file_exists(__DIR__.'/config.php')) {
+                $config = require __DIR__.'/config.php';
+            } else {
+                throw new \Exception($exceptionMessage);
+            }
+
+            return $config;
+        }
+
+        /**
+         * for laravel only
+         */
         if (function_exists('config')) {
             $config =  config('STF');
         }
 
         if (!$config) {
             if (file_exists(__DIR__.'/config.php')) {
-                $config = require_once __DIR__.'/config.php';
-
+                $config = require __DIR__.'/config.php';
             }
+        }
+
+        if (!$config) {
+            throw new \Exception($exceptionMessage);
         }
 
         return $config;
     }
 
+
+    /************************************************************************************
+     *
+     * SETTERS
+     *
+     */
+
+    /**
+     * set the config path
+     *
+     * @param $configPath
+     * @return mixed
+     */
+    public function setConfigPath($configPath) {
+        return $this->configPath = $configPath;
+    }
 }

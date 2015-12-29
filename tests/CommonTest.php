@@ -1,0 +1,44 @@
+<?php
+
+use RamonChristopherMorales\StringTokenFormatter\STF;
+
+class CommonTest extends PHPUnit_Framework_TestCase {
+
+    public $stf;
+
+    public function __construct() {
+        parent::__construct();
+
+        $this->stf = new STF();
+    }
+
+    public function assertSTF($actual)
+    {
+        $this->assertInstanceOf('RamonChristopherMorales\StringTokenFormatter\STF', $actual);
+    }
+
+    public function testSTF() {
+        $this->assertNotEmpty($this->stf);
+    }
+
+    public function testAttributeFormatIn() {
+        $this->assertClassHasAttribute('formatIn', 'RamonChristopherMorales\StringTokenFormatter\STF');
+    }
+
+    public function testAttributeFormatOut() {
+        $this->assertClassHasAttribute('formatOut', 'RamonChristopherMorales\StringTokenFormatter\STF');
+    }
+
+    public function testAttributeStrReplaceIn() {
+        $this->assertClassHasAttribute('strReplaceIn', 'RamonChristopherMorales\StringTokenFormatter\STF');
+    }
+
+    public function testAttributeStrReplaceOut() {
+        $this->assertClassHasAttribute('strReplaceOut', 'RamonChristopherMorales\StringTokenFormatter\STF');
+    }
+
+    public function testAttributeTokenList() {
+        $this->assertClassHasAttribute('tokenList', 'RamonChristopherMorales\StringTokenFormatter\STF');
+    }
+
+}

@@ -1,19 +1,19 @@
-<?php use RamonChristopherMorales\StringTokenFormatter\STF;
+<?php
 
-class STFTest extends PHPUnit_Framework_TestCase
+class STFTest extends CommonTest
 {
 
-    protected $stf;
 
-    public function __construct() {
-        parent::__construct();
-
-        $this->stf = new STF();
+    public function testGetStrReplaceOut() {
+//        $this->assertNotEmpty(1);
     }
 
-    public function testConfig()
-    {
-        $this->assertTrue($this->stf->getConfig()?true:false);
-    }
-    
+
+//    public function testFormatOut() {
+//        $this->assertNotEmpty($this->stf->getStrReplaceOut());
+//    }
+
+//    public function testFormatOut() {
+////        $this->assertNotEmpty($this->stf->getStrReplaceIn());
+//    }
 }
