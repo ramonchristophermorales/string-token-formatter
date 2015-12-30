@@ -1,23 +1,41 @@
 <?php
 
-class STFTest extends CommonTest {
+class STFTest extends ConfigTest {
 
-    public function __construct() {
-        parent::__construct();
-        $this->stf = new \RamonChristopherMorales\StringTokenFormatter\STF();
+    /**
+     * @param $formatIn
+     * @param $formatOut
+     * @dataProvider formatProvider
+     */
+    public function testFormat($formatIn, $formatOut) {
+
+        $this->assertEmpty($this->stf->format('', ''));
+        $this->assertNotEmpty($this->stf->format($formatIn, $formatOut));
     }
 
+    /**
+     * @throws Exception
+     */
+    public function testFormatWithConfig() {
 
-    public function testGetStrReplaceOut() {
-//        $this->assertNotEmpty(1);
+        $config = $this->stf->getConfig();
+        $this->assertNotEmpty($this->stf->format($config['formatIn'], $config['formatOut']));
     }
 
+    /**
+     * @dataProvider tokensListProvider
+     */
+    public function testTokensList($token1) {
+//
+//        $this->assertNull($this->stf->tokensList(''));
+//        $this->assertNull($this->stf->tokensList([]));
+//        $this->assertNotEmpty($this->stf->tokensList([$token1, $token2, $token3]));
+    }
 
-//    public function testFormatOut() {
-//        $this->assertNotEmpty($this->stf->getStrReplaceOut());
-//    }
+    public function testSTFNullEntry() {
 
-//    public function testFormatOut() {
-////        $this->assertNotEmpty($this->stf->getStrReplaceIn());
-//    }
+        $this->assertEmpty($this->stf->STF(''));
+    }
+    
+
 }

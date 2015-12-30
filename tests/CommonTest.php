@@ -59,4 +59,19 @@ class CommonTest extends PHPUnit_Framework_TestCase {
         ];
     }
 
+    public function formatProvider() {
+
+        return [
+            'default format' => ['@[s]_[s]', '$[s]->[s]'],
+        ];
+    }
+
+    public function tokensListProvider() {
+
+        return [
+            'string1' => ['sometoken'],
+//            'string with spaces' => [' @stringwith_spaces ','',''],
+//            'array' => ['@first_token', '@second_token', '@third_token']
+        ];
+    }
 }

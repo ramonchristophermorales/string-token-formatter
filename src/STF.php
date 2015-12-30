@@ -57,29 +57,27 @@ class STF {
      * set the list of token
      *
      * @param $tokens
-     * @return array|bool
+     * @return array|null
      */
     public function tokensList($tokens) {
-
-        if(!$tokens) {
-            return null;
-        }
-
+        var_dump($tokens);
         if (is_string($tokens)) {
-            $tokens = [$tokens];
+            $tokens = trim([$tokens]);
         }
 
         $filteredTokenList = null;
 
-        if (is_array($tokens) && count($tokens) > 0) {
-            foreach ($tokens as $token) {
-                if (preg_match($this->formatIn, $token)) {
-                    $this->tokenList[] = $token;
-                }
+        if (!is_array($tokens) && count($tokens) < 1) {
+            return null;
+        }
+
+        foreach ($tokens as $token) {
+            if (preg_match($this->formatIn, $token)) {
+                $this->tokenList[] = $token;
             }
         }
 
-        return true;
+        return $this->tokenList;
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-class Config extends CommonTest {
+class ConfigTest extends CommonTest {
 
     
     /**
