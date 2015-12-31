@@ -60,9 +60,9 @@ class STF {
      * @return array|null
      */
     public function tokensList($tokens) {
-        var_dump($tokens);
+
         if (is_string($tokens)) {
-            $tokens = trim([$tokens]);
+            $tokens = [$tokens];
         }
 
         $filteredTokenList = null;

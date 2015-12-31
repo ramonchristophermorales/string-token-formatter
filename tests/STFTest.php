@@ -36,6 +36,11 @@ class STFTest extends ConfigTest {
 
         $this->assertEmpty($this->stf->STF(''));
     }
-    
+
+    public function testSTFFail() {
+
+        $this->stf->tokensList('@some_thing');
+        $this->assertFalse(strpos($this->stf->STF('this is a sample @some_thing to be test'), '@some_thing'));
+    }
 
 }
